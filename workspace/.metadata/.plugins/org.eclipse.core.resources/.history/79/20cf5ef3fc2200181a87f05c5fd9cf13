@@ -1,0 +1,83 @@
+
+package services;
+
+
+
+import org.json.JSONObject;
+import services.ErrorJSON;
+import tools.FriendTools;
+import tools.UserTools;
+
+public class FriendServices {
+
+	public static JSONObject addFriend(String key, int idFriend){
+		
+		int idUser = UserTools.getId(key);
+		
+		if(!UserTools.isConnected(key)){
+			
+			return ErrorJSON.serviceRefused("Disconnected !", 5);
+		}
+		
+		int id_user = UserTools.getId(key);
+		
+		if(FriendTools.friendExists(idUser, idFriend)){
+			return ErrorJSON.serviceRefused("User "+idUser+" and "+idFriend+" are already friends !",3);
+		}
+		
+		if(!FriendTools.insertFriend(idUser, idFriend)) {
+			return ErrorJSON.serviceRefused("Data Base error", 4);
+		}
+		
+		return ErrorJSON.serviceAccepted("Friend "+idFriend+" added !",key);
+	}
+	
+	
+	
+	public static JSONObject removeFriend(String key, int idFriend){
+		
+		int idUser = UserTools.getId(key);
+		
+		if(!UserTools.isConnected(key)){
+			
+			return ErrorJSON.serviceRefused("Disconnected !", 5);
+		}
+		
+		if(!FriendTools.removeFriend(idUser, idFriend)) {
+			return ErrorJSON.serviceRefused("Data Base error", 4);
+		}
+		
+		return ErrorJSON.serviceAccepted("Friend "+idFriend+" removed !",key);
+	}
+	
+	
+	public static JSONObject searchFriend(String key, String query){
+		
+		int idUser = UserTools.getId(key);
+		
+		if(!UserTools.isConnected(key)){
+			
+			return ErrorJSON.serviceRefused("Disconnected !", 5);
+		}
+		
+		JSONObject friends = FriendTools.searchFriend(idUser, query);
+		
+		return friends;
+	}
+	
+	
+	public static JSONObject showFriend(String key){
+		
+		int idUser = UserTools.getId(key);
+		
+		
+		if(!UserTools.isConnected(key)){
+			
+			return ErrorJSON.serviceRefused("Disconnected !", 5);
+		}
+
+		JSONObject friends = FriendTools.showFriend(idUser);
+		
+		return friends;
+	}
+}

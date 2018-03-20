@@ -1,0 +1,75 @@
+.browser{
+
+	float: right;
+	padding: 5px;
+}
+
+.user{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.research{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.actuality{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 20px;
+}
+
+.icon {
+    border-radius: 50%;
+}
+
+
+.icon:hover{
+
+	filter: invert(100%);
+}
+
+.aside{
+	height: 100%;
+	background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+	overflow: auto;
+}
+
+ul{
+	list-style: none;
+	padding-top: 20px;
+}
+
+.message_list{
+
+	vertical-align:top;
+	display: inline-block;
+	height: 100%;
+	width:74.5%;
+	overflow: auto;
+}
+
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+}
+ 
+
+::-webkit-scrollbar-thumb {
+    background: #aaaaaa; 
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777777; 
+}

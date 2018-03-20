@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="services.ErrorJSON"/>
+<fullyQualifiedTypeName name="javax.sql.DataSource"/>
+<fullyQualifiedTypeName name="javax.naming.InitialContext"/>
+<fullyQualifiedTypeName name="javax.naming.NamingException"/>
+<fullyQualifiedTypeName name="com.mongodb.Mongo"/>
+<fullyQualifiedTypeName name="com.mongodb.DB"/>
+<fullyQualifiedTypeName name="java.util.GregorianCalendar"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.util.Collection"/>
+<fullyQualifiedTypeName name="db.DBStatic"/>
+<fullyQualifiedTypeName name="db.Database"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="services.UserServices"/>
+<fullyQualifiedTypeName name="services.FriendServices"/>
+<fullyQualifiedTypeName name="tools.UserTools"/>
+<fullyQualifiedTypeName name="services.MessageServices"/>
+<fullyQualifiedTypeName name="org.bson.types.ObjectId"/>
+</qualifiedTypeNameHistroy>
