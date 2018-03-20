@@ -3,12 +3,14 @@
 #login{
 	border-top-right-radius: 10px;
 	border-top-left-radius: 10px;
+	
 }
 
 .loginform{
 	float:right;
 	padding-right:10px;
 	padding-top:15px;
+	font-size: 1em;
 }
 
 #psswd{
@@ -22,10 +24,10 @@
 	width:50%;
 	vertical-align:top;
 	display: inline-block;
-	background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
 	margin-bottom: 150px;
 	margin-top:50px;
+	font-size: 2em;
+	margin-left:25%;
 }
 
 .signinform form{
@@ -33,10 +35,14 @@
 	top:0px;
 }
 
+.middle{
+	background: linear-gradient(to top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+	
+}
 
 .below{
 	width:100%;
 	text-align: center;
-	background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
 	padding-top: 50px;
+	background-color
 }

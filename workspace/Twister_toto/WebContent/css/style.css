@@ -28,9 +28,7 @@
 
 
 input{
-	font-size: 15px;
 	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
-  	text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
   	border: 1px solid #b7b7b7;
   	padding:5px;
 }
@@ -41,6 +39,7 @@ input{
 	width:25%;
 	vertical-align:top;
 	display: inline-block;
+	
 }
 
 
@@ -56,19 +55,22 @@ body{
 
 
 .button {
-  
-  background-image: linear-gradient(to bottom, #ffffff, #828282);
+  background-image: linear-gradient(to bottom, rgba(236,142,54,1), rgba(254,60,22,1) );
   border-radius: 9px;
   font-family: Arial;
-  color: #000000;
-  font-size: 15px;
+  color: #ffffff;
+  font-size: 1em;
   padding: 5px 10px 5px 10px;
   text-decoration: none;
   border-width: 0px;
 }
 
+
 .button:hover {
   
-  background-image: linear-gradient(to bottom, #7d7d7d, #ffffff);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
 }
+
+
+
