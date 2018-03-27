@@ -16,7 +16,7 @@ import db.Database;
 public class MessageTools {
 
 	
-	public static boolean insertMessage(int id_user, String message){
+	public static boolean insertMessage(int id_user, String login, String message){
 		
 		boolean retour=false;
 		
@@ -29,6 +29,7 @@ public class MessageTools {
 			
 			BasicDBObject dbo = new BasicDBObject();
 			dbo.put("id_user",id_user);
+			dbo.put("login",login);
 			dbo.put("date", d);
 			dbo.put("content", message);
 		
@@ -118,7 +119,7 @@ public class MessageTools {
 	
 	
 	
-	public static boolean insertComment(int id_user, ObjectId id_message, String comment){
+	public static boolean insertComment(int id_user, String login, ObjectId id_message, String comment){
 		
 		boolean retour=false;
 		
@@ -136,6 +137,7 @@ public class MessageTools {
 			
 			BasicDBObject dbo = new BasicDBObject();
 			dbo.put("id_user",id_user);
+			dbo.put("login", login)
 			dbo.put("date", d);
 			dbo.put("content", comment);
 			

@@ -6,9 +6,12 @@
 		<meta charset="utf-8"/>
 		<link rel = "stylesheet" href = "../css/style.css"/ >
 		<link rel = "stylesheet" href = "../css/messages.css"/ >
+		<script type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+		<script type="text/javascript"  src="../javascript/messages.js"></script>
+		<script type="text/javascript"  src="../javascript/tests.js"></script>
 		<title>Wetalk - Login</title>
 	</head>
-	<body>
+	<body onload="init_page()">
 		
 		<div class="top">
 			<div class="image">
@@ -19,10 +22,15 @@
 					<input type="search" name="research" placeholder="Research">
 				</div>
 				<div class="actuality">
-					<img id="actu_icon" class="icon" src="../image/actu.png" width="50px" height="50px">
+					<img id="actu_icon" class="icon" src="../image/actu.png" >
 				</div>
 				<div class="user">
-					<img class="icon" src="../image/user.png" width="50px" height="50px">
+					<span id="username"></span>
+					<ul>
+						<li><a href="#">Your profile</a></li>
+						<li><a href="#">Edit profile</a></li>
+						<li><a href="#">Disconnect</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -32,69 +40,39 @@
 			<div class="aside">
 
 				<h3>Friends</h3>
-				<ul>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-					<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls</li>
-				</ul>
+
 			</div>
 
 			<div class="message_list">
-					<ul>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh  msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-						<li><img class="icon" src="../image/user.png" width="15px" height="15px"> msqkjdqjls<br/>lKQHSzkdh	msqkjdqjlsjjqk jqjhLKSQsjkq KlqhslkJMl</li>
-					</ul>
+					
+
 			</div>
 		</div>
 
+		<script>
+			function init_page(){
+				init();
+				MakeMainPanel(1,"Fianso" ," ");
+			}
 
+			$(function() {
+
+				$('body').load(function() {
+					console.log("ok");
+			        var sH = $(window).height();
+			        $('.aside').css('height', sH + 'px');
+			    }); 
+			    
+			    $(window).resize(function() {
+			        var sH = $(window).height();
+			        $('.aside').css('height', sH + 'px');
+			        
+			    }); 
+
+  
+
+			});
+		</script>
 
 
 	</body>

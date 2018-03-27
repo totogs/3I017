@@ -22,8 +22,9 @@ public class MessageServices {
 		}
 		
 		int id_user = UserTools.getId(key);
+		String login = UserTools.getLogin(id_user);
 		
-		if(!MessageTools.insertMessage(id_user, text)) {
+		if(!MessageTools.insertMessage(id_user, login,  text)) {
 			return ErrorJSON.serviceRefused("Data Base error", 4);
 		}
 		return ErrorJSON.serviceAccepted("Message posted !",key);
@@ -39,8 +40,9 @@ public class MessageServices {
 		}
 		
 		int id_user = UserTools.getId(key);
+		String login = UserTools.getLogin(id_user);
 		
-		if(!MessageTools.insertComment(id_user, id_message, text)) {
+		if(!MessageTools.insertComment(id_user, login, id_message, text)) {
 			return ErrorJSON.serviceRefused("Data Base error", 4);
 		}
 		

@@ -95,6 +95,35 @@ public class UserTools {
 		}
 		return id;
 	}
+
+	public static String getLogin(int id){
+
+		String login="";
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection cn = Database.getMySQLConnection();
+			String query = "SELECT * FROM users WHERE id=\""+ id +"\";";
+			Statement st = cn.createStatement();
+			st.executeQuery(query);
+			
+			ResultSet rs = st.getResultSet();
+			
+			if (rs.next()){
+				
+				login=rs.getString("id_user");
+			}
+			
+			st.close();
+			cn.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return login;
+
+	}
 	
 	public static int getIdByLogin(String login){
 		
