@@ -95,7 +95,7 @@ function init(){
 
 	env=new Object();
 	env.noConnection = true;
-	env.id=7;
+	env.id=6;
 	env.login="vald";
 	env.key="";
 
@@ -103,13 +103,13 @@ function init(){
 
 	var follows=[];
 
-	follows[1] = [2,3,4];
-	follows[2] = [1,4,5];
-	follows[3] = [1,6,7];
-	follows[4] = [1,5,7];
-	follows[5] = [3,6,7];
-	follows[6] = [1,2,3,4,5,6,7];
-	follows[7] = [1,5,6];
+	follows[1] = new Set([2,3,4]);
+	follows[2] = new Set([1,4,5]);
+	follows[3] = new Set([1,6,7]);
+	follows[4] = new Set([1,5,7]);
+	follows[5] = new Set([3,6,7]);
+	follows[6] = new Set([1,2,3,4,5,7]);
+	follows[7] = new Set([1,5,6]);
 
 	env.follows=follows;
 
@@ -138,7 +138,7 @@ function MakeMainPanel(fromId, fromLogin, query){
 
 		s+="<div id=\"title\">"+env.fromLogin+"</div>";
 
-		if(!env.follows[env.id].includes(env.fromId)){
+		if(!env.follows[env.id].has(env.fromId)){
 
 			s+="<div class=\"add\"><div>Follow</div><img src=\"../image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript.follow("+env.fromId+")\"></div>";
 		}else{
@@ -167,6 +167,185 @@ function completeMessages(fromId, query){
 	}
 }
 
+
+
+function connexion(formulaire){
+	
+	var login=formulaire.login.value;
+	var pass=formulaire.psswd.value;
+	var ok = verif_formulaire_connexion(login,pass);
+	
+	if(ok){
+		connecte(login,pass);
+	}
+}
+
+function verif_formulaire_connexion(login,password){
+	
+	if(login.length==0){
+		func_erreur("Id required");
+		return false;	
+	}
+	if(password.length==0){
+		func_erreur("Password required");
+		return false;
+	}
+	if(login.length>20){
+		func_erreur("Id too long");
+	}
+	
+	return true;
+}
+
+
+
+function func_erreur(msg){
+
+	var msg="<div id=\#msg_connexion\">"+msg+"</div>";
+	var old_msg=$("#msg_connexion");
+	
+	if(old_msg.length==0){
+
+		$(".loginform form").prepend(msg);
+	}	
+	else{
+		old_msg.replaceWith(msg);
+	}
+	
+	
+}
+
+
+
+function MakeConnexionPanel(){
+
+	
+
+}
+
+
+
+
+function connecte(login,password){
+
+	console.log("connecte "+login+" "+password+"\n");
+	var id_user=6;
+	var key="";
+	
+	if(!env.noConnexion){
+	
+	
+	}
+	else{
+	
+		responseConnexion({"key":key,"id":id_user,"login",login,"follows":[1,2,3,4,5,7]});
+	}
+
+}
+
+
+
+function responseConnexion(rep){
+
+	if(rep.error=="undefinded"){
+	
+		env.key = rep.key;
+		env.id=rep.id;
+		env.login=rep.login;
+		env.follows=new Set();
+		
+		for(var i=0;i<rep.follows.length;i++){
+			env.follows.add(rep.follows[i]);
+		}
+		
+		if(env.noConnection){
+			
+			env.follows[rep.id]=new Set();
+			
+			for(var i=0;i<rep.follows.length;i++){
+				env.follows[rep.id].add(rep.follows[i]);
+			}
+			
+		}
+		
+		MakeMainPanel(-1,"",env.key);
+	}
+	else{
+	
+		func_erreur(rep.erreur);
+	}
+}
+
+
+function developpeMessage(id){
+
+	var m=env.messages[id];
+	var el=$("#message_"+id+" .comments");
+	
+	for(var i=0;i<m.comments.length;i++){
+		var c=m.comments[i];
+		el.append(c.getHTML());
+	}
+	
+	el=$("#message_"+id+" .newComment");
+	
+	s="<form name=\"new_comment_form\" id=\"new_comment_form\" action=\"func_new_comment("+id+")\">"+
+	"<input type=\"text\" id=\"new_"+id+"\" placeholder=\"New comments\">"+
+	"</form>";
+	
+	el.append(s);
+	
+	$("#message_"+id+" img").replaceWith("<img src=\"../image/replie.png\" onclick=\"replieMessage("+id+")\"/>");
+}
+
+
+
+function replieMessage(id){
+
+	var m=env.messages[id];
+	var el = $("#message_"+id+" .comments");
+	
+	el.html(" ");
+	
+	$("#message_"+id+" img").replaceWith("<img src=\"developpe.png\" onclick=\"developpeMessage("+id+")>");
+}
+
+
+function newComment(id){
+
+	var text = $("#new_"+id).value;
+	
+	if(!env.noConnection){
+	
+	}
+	else{
+	
+		newComment_response(id,JSON.Stringify(new Commentaire(env.messages[id],comments.length+1,{"id":env.id,"login":env.login},text,new Date()));
+	}
+}
+
+
+
+function newComment_response(id,rep){
+
+	var com=JSON.parse(rep,revival);
+	
+	if(com!="undefinded" && com.erreur=="undefinded"){
+		var el = $("#message_"+id+" .comments");
+		el.append(com.getHTML());
+		env.messages[id].comments.push(com);
+		
+		if(env.noConnection){
+			
+			localdb[id]=env.messages[id],
+		}
+		
+	}
+	else{
+	
+		alert();
+	}
+}
 
 
 function getFromLocalDb(from, idMin, idMax, nbMax){
