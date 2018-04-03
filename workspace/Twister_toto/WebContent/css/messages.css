@@ -179,6 +179,25 @@ ul{
 	margin:5px;
 }
 
+.newComment{
+	margin:15px;
+}
+
+.comments{
+
+	margin:15px;
+}
+
+.auteur_comments{
+
+	font-weight:bold;
+	color:rgba(254,60,22,1);
+	font-size: 15px;
+}
+
+.text_comments{
+	font-weight:bold;
+}
 
 ::-webkit-scrollbar {
     width: 5px;

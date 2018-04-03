@@ -94,7 +94,7 @@ function utilDB(){
 function init(){
 
 	env=new Object();
-	env.noConnection = true;
+	env.noConnexion = true;
 	env.id=6;
 	env.login="vald";
 	env.key="";
@@ -115,355 +115,8 @@ function init(){
 }
 
 
-function MakeMainPanel(fromId, fromLogin, query){
 
-	env.messages=[];
 
-	if(fromId=="undefinded"){
-		fromId=1;
-	}
-
-	env.fromId=fromId;
-	env.fromLogin=fromLogin;
-	console.log(env.fromLogin);
-	env.query=query;
-
-	var s="<div id=\"top_message\">";
-
-	if(env.fromId<0){
-		s+="<div id=\"title\">Actualité</div>";
-	}
-	else {
-
-		s+="<div id=\"title\">"+env.fromLogin+"</div>";
-
-		if(!env.follows[env.id].has(env.fromId)){
-
-			s+="<div class=\"add\"><div>Follow</div><img src=\"../image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript.follow("+env.fromId+")\"></div>";
-		}else{
-
-			s+="<div class=\"add\"><div>Friends</div><img src=\"../image/everfollow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript.unfollow("+env.fromId+")\"></div>";
-		}
-	}
-	
-	s+="</div>";
-
-	s+="<div id=\"messages\"></div>";
-
-	$(".message_list").append(s);
-
-	env.messages=completeMessages(fromId, query);
-
-	$.each(env.messages, function(index,message){
-		$('#messages').append(message.getHTML());
-	});
-
-
-}
-
-function getMessage(id){
-
-	$.each(env.messages, function(index, message){
-		if(message.id==id){
-			return message;
-		}
-	});
-
-	return null;
-}
-
-function completeMessages(fromId, query){
-
-	if(!env.noConnection){
-		
-		$.ajax({
-			type:"POST",
-			url:"Twister_toto/ShowMessageFriends",
-
-		})
-	}
-	else{
-		return getFromLocalDb(fromId,1,20,10);	
-	}
-}
-
-
-//fonctions de Raffraichissement de la page *************************
-function refreshMessage(){
-	if(env.query=="undefinded"){
-		return;
-	}
-
-	if(!env.noConnection){
-		$.ajax({
-			type:"POST",
-			url:"Twister_toto/ShowMessageFriends",
-			data:"key="+env.key+"&query="+env.query+"env.from="+env.fromId+"&id_max=-1&id_min="+env.maxId+"&nb=-1",
-			success:function(rep){refreshMessageResponse(rep);}
-		})
-	}
-}
-
-function refreshMessageResponse(rep){
-
-	var tab=JSON.parse(rep,revival);
-
-	for(var i=tab.length-1;i>=0;i--){
-		var m=tab[i];
-
-		$("#list_messages").prepend(m.getHTML());
-		env.messages[m.id]=m;
-
-		if(m.id>env.maxId){
-			env.maxId=m.id;
-		}
-
-		if(env.minId<0 || (m.id<env.minId)){
-			env.minId=m.id;
-		}
-	}
-}
-
-
-function newMessage(){
-
-	var text=$("#new_message").val();
-
-	if(!noConnection){
-
-		$.ajax({
-			type:"POST",
-			url:"Twister_toto/AddMessage",
-			data:"key="+env.key+"&text"+text,
-			datatype:"json",
-			success:function(rep){newMessagesResponse(rep);},
-
-		})
-	}
-}
-
-
-function newMessageResponse(rep){
-
-}
-
-
-//fonctions de connexion au serveur *********************************
-function connexion(formulaire){
-	
-	var login=formulaire.login.value;
-	var pass=formulaire.psswd.value;
-	var ok = verif_formulaire_connexion(login,pass);
-	
-	if(ok){
-		connecte(login,pass);
-	}
-}
-
-function verif_formulaire_connexion(login,password){
-	
-	if(login.length==0){
-		func_erreur("Id required");
-		return false;	
-	}
-	if(password.length==0){
-		func_erreur("Password required");
-		return false;
-	}
-	if(login.length>20){
-		func_erreur("Id too long");
-		return false;
-	}
-	
-	return true;
-}
-
-
-
-function func_erreur(msg){
-
-	var msg="<div id=\#msg_connexion\">"+msg+"</div>";
-	var old_msg=$("#msg_connexion");
-	
-	if(old_msg.length==0){
-
-		$(".loginform form").prepend(msg);
-	}	
-	else{
-		old_msg.replaceWith(msg);
-	}
-	
-	
-}
-
-
-
-function MakeConnexionPanel(){
-
-	var s=	'<div class="top">'+
-			'<div class="image">'+
-				'<img src="../image/wetalk.png" width="100px" height="50px">'+
-			'</div>'+
-			'<div class="loginform">'+
-				'<form onsubmit="connexion(this)" method="get">'+		
-					'<div class="elform_log">'+	
-					'<input type="text" name="login" placeholder="Login">'+
-					'</div>'+
-					'<div class="elform_log">'+
-						'<input type="password" name="psswd" placeholder="Password">'+
-					'</div>'+
-					'<div class="elform_log">'+
-						'<input type="checkbox" name="root" value="rooted"><label class="check_root" for="root">Stay connected ?</label>'+
-					'</div>'+
-					'<div class="elform_log">'+
-						'<input class="button_login" type="submit" value="Connection" >'+
-					'</div>'+
-				'</form>'+
-			'</div>'+
-		'</div>'+
-
-		'<div class="middle">'+
-
-
-			'<div class="signinform">'+
-				"You don't have an account and want to talk ?<br/>"+
-				"Please create an account !"+
-				'<form action="signin" method="get">'+
-					'<div class="elform">'+
-						'<input type="text" name="login" class="up_input lg_200"  placeholder="Login">'+
-					'</div>'+
-					'<div class="elform">'+
-						'<input type="text" name="surname" id="surname" class="lg_200" placeholder="Surname">'+
-					'</div>'+
-					'<div class="elform">'+
-						'<input type="text" name="name" id="name" class="lg_200" placeholder="Name">'+
-					'</div>'+
-					'<div class="elform">'+
-						'<input type="password" name="psswd" class="low_input lg_200" placeholder="Password">'+
-					'</div>'+
-					'<div class="elform">'+
-						'<input class="button" type="submit" value="Create account">'+
-					'</div>'+
-				'</form>'+
-			'</div>'+
-		'</div>'+
-
-		'<div class="below">'+
-			'<div class="information">'+
-				'Created by<br/>'+
-				'GOSSE-DUMESNIL Tony<br/>'+
-				'BOURCIER Jules<br/>'+
-			'</div>'+
-		'</div>';
-
-		$("body").html(s);
-
-}
-
-
-function MakeMessagePanel(){
-
-	var s =	'<div class="top">'+
-			'<div class="image">'+
-				'<img src="../image/wetalk.png" width="100px" height="50px">'+
-			'</div>'+
-			'<div class="browser">'+
-				'<div class="research">'+
-					'<input type="search" name="research" placeholder="Research">'+
-				'</div>'+
-				'<div class="actuality">'+
-					'<img id="actu_icon" class="icon" src="../image/actu.png" >'+
-				'</div>'+
-				'<div class="user">'+
-					'<span id="username"></span>'+
-					'<ul>'+
-						'<li><a href="#">Your profile</a></li>'+
-						'<li><a href="#">Edit profile</a></li>'+
-						'<li><a href="#">Disconnect</a></li>'+
-					'</ul>'+
-				'</div>'+
-			'</div>'+
-		'</div>'+
-
-		'<div class="middle">'+
-
-			'<div class="aside">'+
-
-				'<h3>Friends</h3>'+
-
-			'</div>'+
-
-			'<div class="message_list">'+
-					
-
-			'</div>'+
-		'</div>';
-
-	$("body").html(s);
-}
-
-
-
-
-function connecte(login,password){
-
-	console.log("connecte "+login+" "+password+"\n");
-	var id_user=6;
-	var key="";
-	var login="Vald";
-	
-	if(!env.noConnexion){
-	
-		$.ajax({
-			type:"POST",
-			url:"Twister/login",
-			data:"login="+login+"&password="+password,
-			succes:function(rep){responseConnexion(rep);},
-			error:function(xhr,textstatus,error){alert(textstatus);}
-		});
-	}
-	else{
-	
-		responseConnexion({"key":key,"id":id_user,"login":login,"follows":[1,2,3,4,5,7]});
-	}
-
-}
-
-
-
-function responseConnexion(rep){
-
-
-	if(rep.error=="undefinded"){
-	
-		env.key = rep.key;
-		env.id=rep.id;
-		env.login=rep.login;
-		env.follows=new Set();
-		
-		for(var i=0;i<rep.follows.length;i++){
-			env.follows.add(rep.follows[i]);
-		}
-		
-		if(env.noConnection){
-			
-			env.follows[rep.id]=new Set();
-			
-			for(var i=0;i<rep.follows.length;i++){
-				env.follows[rep.id].add(rep.follows[i]);
-			}
-			
-		}
-		
-		MakeMessagePanel();
-		$('#username').html(env.login);
-		MakeMainPanel(-1,"",env.key);
-	}
-	else{
-	
-		func_erreur(rep.erreur);
-	}
-}
 
 
 //Fonctions d'enregistrement de compte ***********************************
@@ -483,78 +136,6 @@ function enregistrement(nom,prenom,login,password){
 	}
 }
 
-//Fonctions d'affichage et d'ajout de commentaire***********************
-
-function developpeMessage(id){
-
-	var m=getMessage(id);
-	var el=$("#message_"+id+" .comments");
-	
-	if(m!=null){
-		for(var i=0;i<m.comments.length;i++){
-			var c=m.comments[i];
-			el.append(c.getHTML());
-		}
-	}
-	el=$("#message_"+id+" .newComment");
-	
-	s="<form name=\"new_comment_form\" id=\"new_comment_form\" action=\"func_new_comment("+id+")\">"+
-	"<input type=\"text\" id=\"new_"+id+"\" placeholder=\"New comments\">"+
-	"</form>";
-	
-	el.append(s);
-	
-	$("#message_"+id+" svg").replaceWith('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up-circle"><circle cx="12" cy="12" r="10"  onclick="replieMessage('+id+')"></circle><polyline points="16 12 12 8 8 12"></polyline><line x1="12" y1="16" x2="12" y2="8"></line></svg>');
-}
-
-
-
-function replieMessage(id){
-
-	var m=env.messages[id];
-	var el = $("#message_"+id+" .comments");
-	
-	el.html(" ");
-	
-	$("#message_"+id+" svg").replaceWith('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down-circle" onclick="developpeMessage('+id+')"><circle cx="12" cy="12" r="10"></circle><polyline points="8 12 12 16 16 12"></polyline><line x1="12" y1="8" x2="12" y2="16"></line></svg>');
-}
-
-
-function newComment(id){
-
-	var text = $("#new_"+id).value;
-	
-	if(!env.noConnection){
-	
-	}
-	else{
-	
-		newComment_response(id,JSON.Stringify(new Commentaire(env.messages[id],comments.length+1,{"id":env.id,"login":env.login},text,new Date())));
-	}
-}
-
-
-
-function newComment_response(id,rep){
-
-	var com=JSON.parse(rep,revival);
-	
-	if(com!="undefinded" && com.erreur=="undefinded"){
-		var el = $("#message_"+id+" .comments");
-		el.append(com.getHTML());
-		env.messages[id].comments.push(com);
-		
-		if(env.noConnection){
-			
-			localdb[id]=env.messages[id];
-		}
-		
-	}
-	else{
-	
-		alert(com.error);
-	}
-}
 
 
 function performPictureSubmit(){
@@ -590,6 +171,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id_user==from && message.id>=idMin && message.id<=idMax && cpt<nbMax){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -597,6 +179,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if( message.id>=idMin && message.id<=idMax && cpt<nbMax){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -604,6 +187,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id_user==from && message.id>=idMin && cpt<nbMax){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -611,6 +195,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id>=idMin && cpt<nbMax){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -620,6 +205,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id_user==from && message.id>=idMin && message.id<=idMax ){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -627,6 +213,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id>=idMin && message.id<=idMax ){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -634,6 +221,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id_user==from && message.id>=idMin){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}
@@ -641,6 +229,7 @@ function getFromLocalDb(from, idMin, idMax, nbMax){
 		messages.forEach(function(message){
 			if(message.id>=idMin ){
 				newliste.push(message);
+				env.messages[message.id]=message;
 			}
 		});
 	}

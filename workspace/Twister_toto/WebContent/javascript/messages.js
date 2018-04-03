@@ -7,7 +7,7 @@ function Message(id,id_user,login,text,date,comments){
 	this.text=text;
 	this.date=date;
 
-	if(typeof comments == 'undefinded' || comments==null){
+	if(typeof comments == undefined || comments==null){
 		comments=[];
 	}
 
@@ -21,7 +21,8 @@ Message.prototype.getHTML = function() {
 				"<div class=\"text\">"+this.text+"</div>"+
 				"<div class=\"date\">"+this.date+"</div>"+
 				"<div class=\"comments\"></div>"+
-				"<div class=\"newComment\"></div>"+
+				"<div class=\"newComment\">	<form name=\"new_comment_form\" id=\"new_comment_form\" action=\"func_new_comment("+this.id+")\">"+
+	"<input type=\"text\" id=\"new_"+this.id+"\" placeholder=\"New comments\"></form></div>"+
 				'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down-circle" onclick="developpeMessage('+this.id+')"><circle cx="12" cy="12" r="10"></circle><polyline points="8 12 12 16 16 12"></polyline><line x1="12" y1="8" x2="12" y2="16"></line></svg>'+
 			"</div>";
 }
@@ -39,7 +40,7 @@ Commentaire.prototype.getHTML=function(){
 
 	return "<div><div class=\"auteur_comments\" onclick=\"pageUser("+this.login+")\">"+this.auteur+"</div>"+
 				"<div class=\"text_comments\">"+this.text+"</div>"+
-				"<div class=\"date_comments\">"+this.date+"</div>"+
+				"<div class=\"date\">"+this.date+"</div>"+
 			"</div>";
 
 }
@@ -47,11 +48,11 @@ Commentaire.prototype.getHTML=function(){
 
 function revival(key, value){
 
-	if(value.comments!='undefinded'){
+	if(value.comments!=undefined){
 		var c = new Message(value.id, value.id_user, value.login, value.text, value.date, value.comments);
 		return c;
 	}
-	else if(value.text != 'undefinded'){
+	else if(value.text != undefined){
 
 		var c = new Message(value.id, value.login, value.text, value.date);
 		return c; 
@@ -59,7 +60,7 @@ function revival(key, value){
 }
 
 
-
+/*
 $(function() {
 
 	$('body').load(function() {
@@ -76,4 +77,4 @@ $(function() {
 
 
 
-});
+});*/
