@@ -13,7 +13,7 @@ import services.UserServices;
 
 public class DeleteUser extends HttpServlet{
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String login = request.getParameter("login");
 		String psswd = request.getParameter("psswd");

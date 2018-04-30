@@ -16,7 +16,7 @@ public class UserTest {
 		System.out.println("Creation of users's account !");
 		//*************************************
 		
-		JSONObject user1 = UserServices.signIn(null, passwords[0], "montana", "antonio");
+		JSONObject user1 = UserServices.signIn(logins[0], passwords[0], "montana", "antonio");
 		JSONObject user2 = UserServices.signIn(logins[1], passwords[1], "colombia", "sosa");
 		JSONObject user3 = UserServices.signIn(logins[2], passwords[2], "macron", "emmanuel");
 		
@@ -34,9 +34,9 @@ public class UserTest {
 		JSONObject log2 = UserServices.login(logins[1], passwords[1], "on");
 		JSONObject log3 = UserServices.login(logins[2], passwords[2], "undefinded");
 		
-		System.out.println(log1.toString());
-		System.out.println(log2.toString());
-		System.out.println(log3.toString());
+		//System.out.println(log1.toString());
+		//System.out.println(log2.toString());
+		//System.out.println(log3.toString());
 		
 		
 		//*************************************

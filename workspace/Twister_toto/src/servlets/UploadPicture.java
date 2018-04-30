@@ -1,9 +1,17 @@
-public class UploadPicture extends HTTPServlet{
+package servlets;
+
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class UploadPicture extends HttpServlet{
 	
 	private final String UPLOAD_DIRECTORY="/3i017/Fileserveur";
 
-	protected void doPost(HTTPServeltResquest request, HTTPServletresponse response){
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response){
+		/*
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 		String key="";
 		response.setContentType("application/json");
@@ -31,11 +39,6 @@ public class UploadPicture extends HTTPServlet{
 					}
 				}
 			}
-		}
+		}*/
 	}
 }
-
-<form id="form_upload_picture">
-	<input type="file"/>
-
-</form>

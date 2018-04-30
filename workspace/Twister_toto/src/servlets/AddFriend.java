@@ -14,7 +14,7 @@ import services.UserServices;
 
 public class AddFriend extends HttpServlet{
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String key = request.getParameter("key");
 		int idFriend = Integer.parseInt(request.getParameter("idFriend"));

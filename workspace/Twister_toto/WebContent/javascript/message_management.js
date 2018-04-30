@@ -11,80 +11,115 @@ function getMessage(id){
 
 function completeMessages(fromId, query){
 
+	env.messages=[];
 
 	if(!env.noConnexion){
 		
 		$.ajax({
 			type:"POST",
-			url:"Twister_toto/ShowMessageFriends",
-
-		})
+			url:"ShowMessageFriends",
+			data:"key="+env.key+"&query="+query+"&from="+fromId+"&id_max=-1&id_min=-1&nb=10",
+			dataType:"json",
+			success:function(rep){messageResponse(JSON.stringify(rep));},
+			error:function(xhr,textstatus,error){alert(textstatus);}
+		});
 	}
 	else{
-		return getFromLocalDb(fromId,1,20,10);	
+		messageResponse(JSON.stringify(getFromLocalDb(fromId,-1,-1,10)));	
 	}
 }
+
 
 
 //fonctions de Raffraichissement de la page *************************
 function refreshMessage(){
-	if(env.query==undefined){
-		return;
-	}
 
 	if(!env.noConnexion){
 		$.ajax({
 			type:"POST",
-			url:"Twister_toto/ShowMessageFriends",
-			data:"key="+env.key+"&query="+env.query+"env.from="+env.fromId+"&id_max=-1&id_min="+env.maxId+"&nb=-1",
+			url:"ShowMessageFriends",
+			data:"key="+env.key+"&query="+env.query+"&from="+env.fromId+"&id_max="+env.minId+"&id_min=-1&nb=10",
 			dataType:"json",
-			success:function(rep){refreshMessageResponse(rep);},
+			success:function(rep){messageResponse(JSON.stringify(rep));},
 			error:function(xhr,textstatus,error){alert(textstatus);}
 		});
 	}
-}
-
-function refreshMessageResponse(rep){
-
-	var tab=JSON.parse(rep,revival);
-
-	for(var i=tab.length-1;i>=0;i--){
-		var m=tab[i];
-
-		$("#list_messages").prepend(m.getHTML());
-		env.messages[m.id]=m;
-
-		if(m.id>env.maxId){
-			env.maxId=m.id;
-		}
-
-		if(env.minId<0 || (m.id<env.minId)){
-			env.minId=m.id;
-		}
+	else{
+		messageResponse(JSON.stringify(getFromLocalDb(env.fromId, -1, env.minId, 10)));
 	}
 }
 
 
-function newMessage(){
+function messageResponse(rep){
 
-	var text=$("#new_message").val();
 
-	if(!noConnexion){
+	if(rep!=undefined){
+
+		var tab=JSON.parse(rep,revival);
+		console.log(tab);
+
+		$.each(tab, function(index,message){
+			env.messages[message.id]=message;
+			if(message.id>env.maxId){
+				env.maxId=message.id;
+			}
+			if((env.minId<0) || (message.id<env.minId)){
+				env.minId=message.id;
+			}
+			$('#messages').append(message.getHTML());
+		});
+		console.log(env.minId+" "+env.maxId);
+	}
+	else{
+		//nomessages
+	}
+
+}
+
+function newMessage(formulaire){
+
+	var text=formulaire.new_message.value;
+	
+
+	if(!env.noConnexion){
 
 		$.ajax({
 			type:"POST",
-			url:"Twister_toto/AddMessage",
-			data:"key="+env.key+"&text"+text,
+			url:"AddMessage",
+			data:"key="+env.key+"&text="+text,
 			datatype:"json",
-			success:function(rep){newMessagesResponse(rep);},
+			success:function(rep){newMessageResponse(rep);},
+			error:function(xhr,textstatus,error){alert(textstatus);}
+		});
+	}
+	else{
 
-		})
+		newMessageResponse(JSON.stringify(new Message(localDB.length, env.id, env.login,text,new Date())));
 	}
 }
 
 
 function newMessageResponse(rep){
 
+	console.log(rep);
+	var message=JSON.parse(rep, revival);
+
+	
+	if(message!=undefined && message.error==undefined){
+
+		env.messages[message.id]=message;
+		if(message.id>env.maxId){
+			env.maxId=message.id;
+		}
+		if((env.minId<0) || (message.id<env.minId)){
+			env.minId=message.id;
+		}
+		$('#messages').prepend(message.getHTML());
+	}
+	else{
+	
+		alert(message.error);
+	}
 }
 
 
@@ -107,7 +142,7 @@ function developpeMessage(id){
 			
 			if(comments!=undefined)
 				el.append(comments.getHTML());
-		})
+		});
 	}
 	
 	$("#message_"+id+" svg").replaceWith('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up-circle" onclick="replieMessage('+id+')"><circle cx="12" cy="12" r="10"  ></circle><polyline points="16 12 12 8 8 12"></polyline><line x1="12" y1="16" x2="12" y2="8"></line></svg>');
@@ -119,9 +154,8 @@ function replieMessage(id){
 
 	var m=env.messages[id];
 	var el = $("#message_"+id+" .comments");
-	console.log("ok");
-	el.replaceWith(" ");
-	el.new
+	el.html(" ");
+
 	
 	$("#message_"+id+" svg").replaceWith('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down-circle" onclick="developpeMessage('+id+')"><circle cx="12" cy="12" r="10"></circle><polyline points="8 12 12 16 16 12"></polyline><line x1="12" y1="8" x2="12" y2="16"></line></svg>');
 }
@@ -129,26 +163,42 @@ function replieMessage(id){
 
 function newComment(id){
 
-	var text = $("#new_"+id).value;
+	var text = $("#new_"+id).val();
+	console.log(text);
 	
 	if(!env.noConnexion){
-	
+		
+		$.ajax({
+			type:"POST",
+			url:"AddComment",
+			data:"key="+env.key+"&text="+text+"&idMessage="+id,
+			datatype:"json",
+			success:function(rep){newCommentResponse(id,JSON.stringify(rep));},
+			error:function(xhr,textstatus,error){alert(textstatus);}
+		});
 	}
 	else{
 	
-		newComment_response(id,JSON.Stringify(new Commentaire(env.messages[id],comments.length+1,{"id":env.id,"login":env.login},text,new Date())));
+		newCommentResponse(id,JSON.stringify(new Commentaire({"id":env.id,"login":env.login},text,new Date())));
 	}
 }
 
 
 
-function newComment_response(id,rep){
+function newCommentResponse(id,rep){
 
-	var com=JSON.parse(rep,revival);
+	console.log(rep);
+	var com=JSON.parse(rep);
 	
-	if(com!=undefined && com.erreur==undefined){
+	if(com!=undefined && com.error==undefined){
+		com = new Commentaire(com.auteur, com.content, com.date)
 		var el = $("#message_"+id+" .comments");
 		el.append(com.getHTML());
+
+		if(env.messages[id].comments.length==0){
+			$("#message_"+id+" svg").replaceWith('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down-circle" onclick="developpeMessage('+id+')"><circle cx="12" cy="12" r="10"></circle><polyline points="8 12 12 16 16 12"></polyline><line x1="12" y1="8" x2="12" y2="16"></line></svg>');
+		}
+
 		env.messages[id].comments.push(com);
 		
 		if(env.noConnexion){

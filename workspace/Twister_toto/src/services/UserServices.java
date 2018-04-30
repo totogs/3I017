@@ -36,9 +36,8 @@ public class UserServices {
 			return ErrorJSON.serviceRefused("Data Base error", 4);
 		}
 		
-
 		
-		return ErrorJSON.serviceAccepted("User "+login+" is connected !",key);
+		return ErrorJSON.login(key, idUser, login);
 	}
 	
 	

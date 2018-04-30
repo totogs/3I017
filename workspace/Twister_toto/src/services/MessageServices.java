@@ -24,14 +24,16 @@ public class MessageServices {
 		int id_user = UserTools.getId(key);
 		String login = UserTools.getLogin(id_user);
 		
-		if(!MessageTools.insertMessage(id_user, login,  text)) {
+		JSONObject message = MessageTools.insertMessage(id_user, login,  text);
+		if(message==null) {
 			return ErrorJSON.serviceRefused("Data Base error", 4);
 		}
-		return ErrorJSON.serviceAccepted("Message posted !",key);
+		
+		return message;
 	}
 	
 	
-	public static JSONObject addComment(String key, String text, ObjectId id_message){
+	public static JSONObject addComment(String key, String text, int id_message){
 		
 		
 		if(!UserTools.isConnected(key)){
@@ -42,11 +44,12 @@ public class MessageServices {
 		int id_user = UserTools.getId(key);
 		String login = UserTools.getLogin(id_user);
 		
-		if(!MessageTools.insertComment(id_user, login, id_message, text)) {
+		JSONObject comment = MessageTools.insertComment(id_user, login, id_message, text);
+		if(comment==null) {
 			return ErrorJSON.serviceRefused("Data Base error", 4);
 		}
 		
-		return ErrorJSON.serviceAccepted("Comment added !", key);
+		return comment;
 	}
 	
 	
@@ -84,7 +87,7 @@ public class MessageServices {
 	}
 	
 	
-	public static JSONObject listMessageFriend(String key){
+	public static JSONObject listMessageFriend(String key, String query, int from, int min_id, int max_id, int nb_messages){
 		
 		
 		
@@ -95,7 +98,11 @@ public class MessageServices {
 		
 		int id_user = UserTools.getId(key);
 		
-		JSONObject messages = MessageTools.selectMessageFriend(id_user);
+		JSONObject messages = MessageTools.selectMessageFriend(id_user, from, min_id, max_id, nb_messages);
+		
+		if(messages==null) {
+			return ErrorJSON.serviceRefused("Data Base error", 4);
+		}
 		
 		return messages;
 	}

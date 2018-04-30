@@ -111,7 +111,7 @@ public class UserTools {
 			
 			if (rs.next()){
 				
-				login=rs.getString("id_user");
+				login=rs.getString("login");
 			}
 			
 			st.close();
@@ -158,7 +158,7 @@ public class UserTools {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection cn = Database.getMySQLConnection();
-			String insert = "INSERT INTO connection(cle,id_user,thedate, root) VALUES(?,?,NOW(),?);";
+			String insert = "INSERT INTO connection(cle,id_user,thedate, isroot) VALUES(?,?,NOW(),?);";
 			PreparedStatement st = cn.prepareStatement(insert);
 			
 			
@@ -277,7 +277,7 @@ public class UserTools {
 			if (rs.next()){
 				
 				long time = rs.getTimestamp("thedate").getTime();
-				boolean root = rs.getBoolean("root");
+				boolean root = rs.getBoolean("isroot");
 				
 				if(System.currentTimeMillis()-time<1800000  || root){
 					connected=true;

@@ -13,7 +13,7 @@ import services.MessageServices;
 
 public class DeleteMessage extends HttpServlet {
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String key = request.getParameter("key");
 		int id_message = Integer.parseInt(request.getParameter("idMessage"));

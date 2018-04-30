@@ -2,7 +2,7 @@ function MakeConnexionPanel(){
 
 	var s=	'<div class="top">'+
 			'<div class="image">'+
-				'<img src="../image/wetalk.png" width="100px" height="50px">'+
+				'<img src="./image/wetalk.png" width="100px" height="50px">'+
 			'</div>'+
 			'<div class="loginform">'+
 				'<form action="javascript:(function(){})()" onsubmit="connexion(this)" method="get">'+		
@@ -28,7 +28,7 @@ function MakeConnexionPanel(){
 			'<div class="signinform">'+
 				"You don't have an account and want to talk ?<br/>"+
 				"Please create an account !"+
-				'<form action="signin" method="get">'+
+				'<form action="javascript:(function(){})()" onsubmit="enregistrement(this)" method="get">'+
 					'<div class="elform">'+
 						'<input type="text" name="login" class="up_input lg_200"  placeholder="Login">'+
 					'</div>'+
@@ -65,21 +65,21 @@ function MakeMessagePanel(){
 
 	var s =	'<div class="top">'+
 			'<div class="image">'+
-				'<img src="../image/wetalk.png" width="100px" height="50px">'+
+				'<img src="./image/wetalk.png" width="100px" height="50px">'+
 			'</div>'+
 			'<div class="browser">'+
 				'<div class="research">'+
 					'<input type="search" name="research" placeholder="Research">'+
 				'</div>'+
 				'<div class="actuality">'+
-					'<img id="actu_icon" class="icon" src="../image/actu.png" >'+
+					'<img id="actu_icon" class="icon" src="./image/actu.png" onclick="pageActualite()">'+
 				'</div>'+
 				'<div class="user">'+
 					'<span id="username"></span>'+
 					'<ul>'+
-						'<li><a href="#">Your profile</a></li>'+
+						'<li><a href="#" onclick="pageUser(\''+env.login+'\','+env.id+')">Your profile</a></li>'+
 						'<li><a href="#">Edit profile</a></li>'+
-						'<li><a href="#">Disconnect</a></li>'+
+						'<li><a href="#" onclick="deconnecte()">Disconnect</a></li>'+
 					'</ul>'+
 				'</div>'+
 			'</div>'+
@@ -90,7 +90,7 @@ function MakeMessagePanel(){
 			'<div class="aside">'+
 
 				'<h3>Friends</h3>'+
-
+				'<ul id="list_friend"></ul>'+
 			'</div>'+
 
 			'<div class="message_list">'+
@@ -100,6 +100,12 @@ function MakeMessagePanel(){
 		'</div>';
 
 	$("body").html(s);
+
+	getFriendList();
+}
+
+function clear(){
+	$(".message_list").html("");
 }
 
 
@@ -108,7 +114,7 @@ function MakeMainPanel(fromId, fromLogin, query){
 
 	env.messages=[];
 
-	if(fromId=="undefinded"){
+	if(fromId==undefined){
 		fromId=1;
 	}
 
@@ -120,32 +126,33 @@ function MakeMainPanel(fromId, fromLogin, query){
 	var s="<div id=\"top_message\">";
 
 	if(env.fromId<0){
-		s+="<div id=\"title\">Actualité</div>";
+		s+="<div id=\"title\">Actualité</div>"+
+		"<div class=\"newMessage\">	<form name=\"new_message_form\" id=\"new_message_form\" action=\"javascript:(function(){})()\" onsubmit=\"newMessage(this)\">"+
+	"<input type=\"text\" id=\"new_message\" placeholder=\"New message\"></form></div>"
 	}
 	else {
 
 		s+="<div id=\"title\">"+env.fromLogin+"</div>";
 
-		if(!env.follows[env.id].has(env.fromId)){
+		if(!env.follows.has(env.fromId)){
 
-			s+="<div class=\"add\"><div>Follow</div><img src=\"../image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript.follow("+env.fromId+")\"></div>";
+			s+="<div id=\"add\"><div>Follow</div><img src=\"./image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript:follow("+env.fromId+")\"></div>";
 		}else{
 
-			s+="<div class=\"add\"><div>Friends</div><img src=\"../image/everfollow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript.unfollow("+env.fromId+")\"></div>";
+			s+="<div id=\"add\"><div>Unfollow</div><img src=\"./image/everfollow.png\" class=\"icon\" title=\"everfollow\" onclick=\"javascript:unfollow("+env.fromId+")\"></div>";
 		}
 	}
 	
 	s+="</div>";
 
 	s+="<div id=\"messages\"></div>";
+	s+='<div id="load_next" onclick="refreshMessage()">load next messages</div>';
 
 	$(".message_list").append(s);
 
 	
+	completeMessages(fromId, query);
 
-	$.each(completeMessages(fromId, query), function(index,message){
-		$('#messages').append(message.getHTML());
-	});
 
 
 }

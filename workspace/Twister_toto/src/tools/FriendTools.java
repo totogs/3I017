@@ -99,7 +99,8 @@ public class FriendTools {
 	
 	public static JSONObject showFriend(int idUser){
 		
-		JSONObject friends = new JSONObject();
+		JSONObject retour = new JSONObject();;
+		List<JSONObject> friends = new ArrayList<JSONObject>();
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -114,28 +115,30 @@ public class FriendTools {
 				JSONObject el = new JSONObject();
 				el.put("id",rs.getInt("id"));
 				el.put("login",rs.getString("login"));
-				el.put("name",rs.getString("name"));
-				el.put("surname",rs.getString("surname"));
+
 				
 				System.out.println(rs.getString("name")+" "+rs.getString("surname"));
-				friends.put("friends", el);
+				friends.add(el);
 			}
 			
 			
 			st.close();
 			cn.close();
+			
+			retour.put("friends", friends);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		return friends;
+		return retour;
 	}
 	
 	
 	public static JSONObject searchFriend(int idUser, String search){
 		
-		JSONObject friends = new JSONObject();
+		JSONObject retour = new JSONObject();;
+		List<JSONObject> friends = new ArrayList<JSONObject>();
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -152,16 +155,16 @@ public class FriendTools {
 				JSONObject el = new JSONObject();
 				el.put("id",rs.getInt("id"));
 				el.put("login",rs.getString("login"));
-				el.put("name",rs.getString("name"));
-				el.put("surname",rs.getString("surname"));
 				
 				System.out.println(rs.getString("name")+" "+rs.getString("surname"));
-				friends.put("friends", el);
+				friends.add(el);
 			}
 
 			
 			st.close();
 			cn.close();
+			
+			retour.put("friends", friends);
 
 		} catch (Exception e) {
 
@@ -169,7 +172,7 @@ public class FriendTools {
 			
 		}
 		
-		return friends;
+		return retour;
 	}
 	
 	
@@ -203,5 +206,8 @@ public class FriendTools {
 		}
 		return list;
 	}
+	
+	
+
 	
 }

@@ -14,7 +14,7 @@
 	
 	<servlet> 
 		<servlet-name>AddMessage</servlet-name> 
-		<servlet-class>servlets.Message</servlet-class> 
+		<servlet-class>servlets.AddMessage</servlet-class> 
 	</servlet> 
 	
 	<servlet> 

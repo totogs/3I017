@@ -90,8 +90,8 @@ public class FriendTest {
 		
 		
 		
-		JSONObject rem1 = FriendServices.removeFriend(key1, idF1);
-		System.out.println(rem1.toString());
+		//JSONObject rem1 = FriendServices.removeFriend(key1, idF1);
+		//System.out.println(rem1.toString());
 		
 		
 		
