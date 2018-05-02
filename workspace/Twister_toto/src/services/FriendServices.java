@@ -51,20 +51,7 @@ public class FriendServices {
 	}
 	
 	
-	public static JSONObject searchFriend(String key, String query){
 
-		
-		if(!UserTools.isConnected(key)){
-			
-			return ErrorJSON.serviceRefused("Disconnected !", 5);
-		}
-		
-		int id_user = UserTools.getId(key);
-		
-		JSONObject friends = FriendTools.searchFriend(id_user, query);
-		
-		return friends;
-	}
 	
 	
 	public static JSONObject showFriend(String key){

@@ -3,6 +3,8 @@ package tools;
 import java.sql.*;
 import java.util.*;
 
+import org.json.JSONObject;
+
 import db.Database;
 
 public class UserTools {
@@ -295,5 +297,88 @@ public class UserTools {
 		}
 		return connected;
 	}
+	
+	
+	public static JSONObject getUserInfo(int id) {
+		
+		JSONObject user=null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection cn = Database.getMySQLConnection();
+			String query = "SELECT * FROM users WHERE id=\""+ id +"\";";
+			Statement st = cn.createStatement();
+			st.executeQuery(query);
+			
+			ResultSet rs = st.getResultSet();
+	
+			user = new JSONObject();
+			if (rs.next()){
+				
+				user.put("login",rs.getString("login"));
+				user.put("id",rs.getString("id"));
+				user.put("name",rs.getString("name"));
+				user.put("surname",rs.getString("surname"));
+				user.put("followers",FriendTools.getNbFollowers(id));
+				user.put("follows",FriendTools.getNbFollows(id));
+				user.put("publications",MessageTools.getNbMessages(id));
+			}
+			
+			st.close();
+			cn.close();
+			
+			
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+	
+	
+	public static JSONObject searchUser(String search){
+		
+		JSONObject retour = new JSONObject();;
+		List<JSONObject> users = new ArrayList<JSONObject>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection cn = Database.getMySQLConnection();
+			String query = "SELECT id, login, name, surname FROM Users  WHERE name like ? or surname like ? or login like ?;";
+			PreparedStatement st = cn.prepareStatement(query);
+			search=search+"%";
+			
+			st.setString(1, search);
+			st.setString(2, search);
+			st.setString(3, search);
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()) {
+				JSONObject el = new JSONObject();
+				el.put("id",rs.getInt("id"));
+				el.put("login",rs.getString("login"));
+				
+				users.add(el);
+			}
+
+			
+			st.close();
+			cn.close();
+			
+			retour.put("users", users);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			
+		}
+		
+		return retour;
+	}
+	
+	
+	
 
 }

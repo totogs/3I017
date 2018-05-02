@@ -18,10 +18,11 @@ public class DeleteMessage extends HttpServlet {
 		String key = request.getParameter("key");
 		int id_message = Integer.parseInt(request.getParameter("idMessage"));
 
+		System.out.println("Demande de suppression de message "+key);
 		
-		/*JSONObject rep = MessageServices.deleteMessage(key, id_message);
+		JSONObject rep = MessageServices.deleteMessage(key, id_message);
 		response.setContentType("text/json");
-		response.getWriter().println(rep.toString());*/
+		response.getWriter().println(rep.toString());
 		
 	}
 }

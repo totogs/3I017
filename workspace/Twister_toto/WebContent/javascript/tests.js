@@ -1,5 +1,4 @@
 
-var env;
 var localDB;
 
 function utilDB(){

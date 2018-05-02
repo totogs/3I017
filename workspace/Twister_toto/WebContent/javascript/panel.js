@@ -61,7 +61,7 @@ function MakeConnexionPanel(){
 }
 
 
-function MakeMessagePanel(){
+function MakeMainPanel(){
 
 	var s =	'<div class="top">'+
 			'<div class="image">'+
@@ -69,13 +69,14 @@ function MakeMessagePanel(){
 			'</div>'+
 			'<div class="browser">'+
 				'<div class="research">'+
-					'<input type="search" name="research" placeholder="Research">'+
+					'<input id="searchinput" onkeypress="getUsersSearch(this);"  type="search" name="research" placeholder="Research">'+
+					'<ul></ul>'+
 				'</div>'+
 				'<div class="actuality">'+
-					'<img id="actu_icon" class="icon" src="./image/actu.png" onclick="pageActualite()">'+
+					'<img id="actu_icon" class="icon" src="./image/actu.png" width="50px" height="50px" onclick="pageActualite()">'+
 				'</div>'+
 				'<div class="user">'+
-					'<span id="username"></span>'+
+					'<div id="username"></div>'+
 					'<ul>'+
 						'<li><a href="#" onclick="pageUser(\''+env.login+'\','+env.id+')">Your profile</a></li>'+
 						'<li><a href="#">Edit profile</a></li>'+
@@ -100,7 +101,8 @@ function MakeMessagePanel(){
 		'</div>';
 
 	$("body").html(s);
-
+	var sH = $(window).height();
+    $('.aside').css('height', sH + 'px');
 	getFriendList();
 }
 
@@ -110,7 +112,7 @@ function clear(){
 
 
 
-function MakeMainPanel(fromId, fromLogin, query){
+function MakeMessagePanel(fromId, fromLogin, query){
 
 	env.messages=[];
 
@@ -132,15 +134,7 @@ function MakeMainPanel(fromId, fromLogin, query){
 	}
 	else {
 
-		s+="<div id=\"title\">"+env.fromLogin+"</div>";
-
-		if(!env.follows.has(env.fromId)){
-
-			s+="<div id=\"add\"><div>Follow</div><img src=\"./image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"javascript:follow("+env.fromId+")\"></div>";
-		}else{
-
-			s+="<div id=\"add\"><div>Unfollow</div><img src=\"./image/everfollow.png\" class=\"icon\" title=\"everfollow\" onclick=\"javascript:unfollow("+env.fromId+")\"></div>";
-		}
+		getUserInfo(env.fromId);s
 	}
 	
 	s+="</div>";

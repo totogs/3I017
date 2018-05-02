@@ -20,16 +20,12 @@ public class SearchFriends extends HttpServlet {
 		String key = request.getParameter("key");
 		String query = request.getParameter("query");
 
-		
-		JSONObject rep = null;
-		
+	
 		System.out.println("Demande de liste d'amis de "+key);
 		
-		if(query==null) {
-			rep = FriendServices.showFriend(key);
-		}else {
-			rep = FriendServices.searchFriend(key, query);
-		}
+	
+		JSONObject rep = FriendServices.showFriend(key);
+
 		
 		String repstring="";
 		if(rep.has("friends")){

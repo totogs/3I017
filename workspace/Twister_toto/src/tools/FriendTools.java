@@ -117,7 +117,6 @@ public class FriendTools {
 				el.put("login",rs.getString("login"));
 
 				
-				System.out.println(rs.getString("name")+" "+rs.getString("surname"));
 				friends.add(el);
 			}
 			
@@ -135,45 +134,7 @@ public class FriendTools {
 	}
 	
 	
-	public static JSONObject searchFriend(int idUser, String search){
-		
-		JSONObject retour = new JSONObject();;
-		List<JSONObject> friends = new ArrayList<JSONObject>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection cn = Database.getMySQLConnection();
-			String query = "SELECT id, login, name, surname FROM Friend as f, Users as u  WHERE u.id=f.id_friend and f.id_user=? and (name=? or surname=?);";
-			PreparedStatement st = cn.prepareStatement(query);
-			
-			st.setInt(1, idUser);
-			st.setString(2, search);
-			st.setString(3, search);
-			ResultSet rs = st.executeQuery();
-			
-			while(rs.next()) {
-				JSONObject el = new JSONObject();
-				el.put("id",rs.getInt("id"));
-				el.put("login",rs.getString("login"));
-				
-				System.out.println(rs.getString("name")+" "+rs.getString("surname"));
-				friends.add(el);
-			}
 
-			
-			st.close();
-			cn.close();
-			
-			retour.put("friends", friends);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			
-		}
-		
-		return retour;
-	}
 	
 	
 	public static List<BasicDBObject> listFriend(int idUser){
@@ -207,6 +168,69 @@ public class FriendTools {
 		return list;
 	}
 	
+	
+	
+	public static int getNbFollowers(int idUser) {
+		
+		int n=0;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection cn = Database.getMySQLConnection();
+			String query = "SELECT * FROM Friend where id_friend=?";
+			PreparedStatement st = cn.prepareStatement(query);
+			
+			st.setInt(1, idUser);
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()) {
+				
+				n++;
+			}
+			st.close();
+			cn.close();
+		
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			
+		}
+		
+		return n;
+	}
+	
+	
+	public static int getNbFollows(int idUser) {
+		
+		int n=0;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection cn = Database.getMySQLConnection();
+			String query = "SELECT * FROM Friend where id_user=?";
+			PreparedStatement st = cn.prepareStatement(query);
+			
+			st.setInt(1, idUser);
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()) {
+				
+				n++;
+			}
+			
+			st.close();
+			cn.close();
+		
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			
+		}
+		
+		return n;
+	}
 	
 
 	

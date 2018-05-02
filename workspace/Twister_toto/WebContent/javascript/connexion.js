@@ -54,9 +54,6 @@ function func_erreur(msg){
 
 function connecte(login,password,isroot){
 
-	console.log("connecte "+login+" "+password+"\n");
-	var id_user=6;
-	var key="";
 	
 
 	if(!env.noConnexion){
@@ -72,7 +69,7 @@ function connecte(login,password,isroot){
 	}
 	else{
 
-		responseConnexion(JSON.stringify({"key":key,"id":id_user,"login":"Vald","follows":[1,2,3,4,5,7]}));
+		responseConnexion(JSON.stringify({"key":"","id":6,"login":"Vald","follows":[1,2,3,4,5,7]}));
 	}
 
 }
@@ -89,6 +86,7 @@ function responseConnexion(rep){
 		env.id=rep.id;
 		env.login=rep.login;
 		env.follows=new Set();
+
 		
 		if(rep.follows!=undefined){
 			for(var i=0;i<rep.follows.length;i++){
@@ -106,21 +104,18 @@ function responseConnexion(rep){
 			
 		}
 		
-		MakeMessagePanel();
+		MakeMainPanel();
 		$('#username').html(env.login);
-		MakeMainPanel(-1,"",env.key);
+		MakeMessagePanel(-1,"",env.key);
 	}
 	else{
 	
-		func_erreur(rep.error);
+		alert(rep.error);
 	}
 }
 
 
 function deconnecte(){
-
-	console.log("deconnecte "+env.login+" "+env.id+"\n");
-
 	
 
 	if(!env.noConnexion){
@@ -130,7 +125,7 @@ function deconnecte(){
 			url:"LogoutUser",
 			data:"key="+env.key,
 			datatype:"json",
-			success:function(rep){responseDeconnexion(JSON.stringify(rep));},
+			success:function(rep){responseDeconnexion(rep);},
 			error:function(xhr,textstatus,error){alert(textstatus);}
 		});
 	}
@@ -251,33 +246,47 @@ function responseEnregistre(rep){
 
 
 function pageUser(login, id){
-
+	clearList();
 	clear();
-	MakeMainPanel(id, login, "");
+	MakeMessagePanel(id, login, "");
 }
 
 
 function pageActualite(){
+	clearList();
 	clear();
-	MakeMainPanel(-1, "", env.key);
+	MakeMessagePanel(-1, "", env.key);
 }
 
 
+
+var env;
 
 function init(){
 
 	env=new Object();
 	env.noConnexion = false;
-	env.id=6;
-	env.login="vald";
+	env.id=-1;
+	env.login="";
 	env.key="";
 	env.maxId=0;
 	env.minId=-1;
 	env.messages=[];
 
 	if(env.noConnexion){
+		env.id=6;
+		env.login="vald";
 		utilDB();
 	}
 	
 
+}
+
+function effacerForm() {
+
+  $("input")
+   .not(':button, :submit, :reset, :hidden')
+   .val('')
+   .removeAttr('checked')
+   .removeAttr('selected');
 }

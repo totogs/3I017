@@ -38,7 +38,6 @@ public class MessageTools {
 			dbo.put("login",login);
 			dbo.put("date", d);
 			dbo.put("content", message);
-			dbo.put("comments", new ArrayList<BasicDBObject>());
 		
 			col.insert(dbo);
 			
@@ -61,7 +60,8 @@ public class MessageTools {
 	
 	public static JSONObject selectMessageUser(int id_user){
 		
-		JSONObject messages = new JSONObject();
+		JSONObject retour = null;
+		List<DBObject> messages = new ArrayList<DBObject>();
 		
 		try {
 
@@ -71,16 +71,18 @@ public class MessageTools {
 			dbo.put("id_user",id_user);
 			
 			DBCursor c=col.find(dbo);
+			c.sort(new BasicDBObject("id", -1));
 			
 			while(c.hasNext()){
 				
 				DBObject obj=c.next();
 				
-				messages.put("messages", obj);
-				
+				messages.add(obj);
 				
 			}
 			
+			retour=new JSONObject();
+			retour.put("messages", messages);
 			
 		} catch (UnknownHostException e) {	
 
@@ -91,7 +93,7 @@ public class MessageTools {
 			e.printStackTrace();
 		}
 		
-		return messages;
+		return retour;
 	}
 	
 	public static JSONObject selectMessageFriend(int id_user, int from, int min_id, int max_id, int nb_messages){
@@ -135,7 +137,10 @@ public class MessageTools {
 			query.put("$and", l_dbo);
 
 			DBCollection col= Database.getCollection("message");
+			DBCollection com= Database.getCollection("comment");
+			DBCollection like= Database.getCollection("like");
 			
+
 			
 			DBCursor c=col.find(query);
 			c.sort(new BasicDBObject("id", -1));
@@ -144,6 +149,34 @@ public class MessageTools {
 				
 				DBObject obj=c.next();
 				
+				BasicDBObject query_id = new BasicDBObject();
+				query_id.put("id_message", obj.get("id"));
+				
+				
+				DBCursor comments = com.find(query_id);
+				
+				BasicDBList l_com = new BasicDBList();
+				
+				while(comments.hasNext() ){
+					
+					l_com.add(comments.next());
+					
+				}
+				
+				
+				DBCursor likes = like.find(query_id);
+				
+				BasicDBList l_like = new BasicDBList();
+				
+				while(likes.hasNext() ){
+					
+					l_like.add(likes.next());
+					
+					
+				}
+				
+				obj.put("comments", l_com);
+				obj.put("likes", l_like);
 				
 				messages.add(obj);
 				
@@ -176,28 +209,22 @@ public class MessageTools {
 		
 		try {
 
-			DBCollection col= Database.getCollection("message");
+			DBCollection col= Database.getCollection("comment");
 			
 			GregorianCalendar c=new GregorianCalendar();
 			Date d=c.getTime();
 			
-			BasicDBObject searchmessage = new BasicDBObject();
-			searchmessage.put("id", id_message);
-			
-			DBObject dbmessage = col.findOne(searchmessage);
-			
 			BasicDBObject dbo = new BasicDBObject();
 			BasicDBObject dbauteur = new BasicDBObject();
 			
-			dbauteur.put("id_user",id_user);
-			dbauteur.put("login", login);
-			dbo.put("auteur",dbauteur);
+			
+			dbo.put("id_user",id_user);
+			dbo.put("login", login);
+			dbo.put("id_message",id_message);
 			dbo.put("date", d);
 			dbo.put("content", comment);
 			
-			dbmessage.put("comments",dbo);
-			
-			col.update(searchmessage, dbmessage);
+			col.insert(dbo);
 			
 			retour = new JSONObject();
 			retour.put("comment", dbo);
@@ -215,16 +242,133 @@ public class MessageTools {
 	}
 	
 	
-	public static boolean deleteMessage(int id_user, ObjectId id_message){
+    public static boolean deleteComment(int id_user, int id_message, int id){
+		
+		boolean retour = false;
+		
+		try {
+
+			DBCollection col= Database.getCollection("comment");
+			
+			
+			BasicDBObject searchcomment = new BasicDBObject();
+			searchcomment.put("id_message", id_message);
+			searchcomment.put("id", id);
+			
+			col.remove(searchcomment);
+			
+			
+			retour = true;
+			
+		} catch (UnknownHostException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return retour;
+	}
+	
+    public static JSONObject insertLike(int id_user, String login, int id_message){
+		
+		JSONObject retour = null;
+		
+		try {
+
+			DBCollection col= Database.getCollection("like");
+			
+			GregorianCalendar c=new GregorianCalendar();
+			Date d=c.getTime();
+			
+			BasicDBObject dbo = new BasicDBObject();
+			BasicDBObject dbauteur = new BasicDBObject();
+			
+			dbo.put("id_message", id_message);
+			dbo.put("id_liker",id_user);
+			dbo.put("login", login);
+			dbo.put("date", d);
+
+			
+			col.insert(dbo);
+			
+			retour = new JSONObject();
+			retour.put("like", dbo);
+			
+		} catch (UnknownHostException e) {
+			
+			e.printStackTrace();
+		}
+		catch (JSONException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return retour;
+	}
+    
+    
+    public static boolean deleteLike(int id_user, int id_message){
+		
+		boolean retour = false;
+		
+		try {
+
+			DBCollection col= Database.getCollection("like");
+			
+			
+			BasicDBObject searchlike = new BasicDBObject();
+			List<BasicDBObject> list = new ArrayList<BasicDBObject>();
+			
+			list.add(new BasicDBObject("id_message", id_message));
+			list.add(new BasicDBObject("id_liker", id_user));
+			searchlike.put("$and", list);
+			
+			col.remove(searchlike);
+		
+			
+			retour = true;
+			
+		} catch (UnknownHostException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return retour;
+	}
+	
+	
+	public static boolean deleteMessage(int id_user, int id_message){
 		
 		boolean retour=false;
 		
 		try {
 
 			DBCollection col = Database.getCollection("message");
+			DBCollection com= Database.getCollection("comment");
+			DBCollection like= Database.getCollection("like");
 			
 			BasicDBObject searchmessage = new BasicDBObject();
 			searchmessage.put("id", id_message);
+			
+			BasicDBObject query_id = new BasicDBObject();
+			query_id.put("id_message", id_message);
+			DBCursor c = com.find(query_id);
+			
+			while(c.hasNext() ){
+				
+				DBObject obj=c.next();
+				deleteComment(((Integer)obj.get("id_user")).intValue(),((Integer)obj.get("id_message")).intValue(), ((Integer)obj.get("id")).intValue());
+				
+			}
+			
+			
+			c = like.find(query_id);
+			
+			while(c.hasNext() ){
+				
+				DBObject obj=c.next();
+				deleteLike(((Integer)obj.get("id_liker")).intValue(),((Integer)obj.get("id_message")).intValue());
+				
+			}
 			
 			col.remove(searchmessage);
 			retour=true;
@@ -235,6 +379,35 @@ public class MessageTools {
 		}
 		
 		return retour;
+	}
+	
+	public static int getNbMessages(int id) {
+		
+		int n=0;
+		
+		try {
+
+			DBCollection col= Database.getCollection("message");
+			
+			BasicDBObject dbo = new BasicDBObject();
+			dbo.put("id_user",id);
+			
+			DBCursor c=col.find(dbo);
+			
+			while(c.hasNext()){
+				
+				n++;
+				c.next();
+				
+			}
+			
+		} catch (UnknownHostException e) {	
+
+			e.printStackTrace();
+
+		}
+		
+		return n;
 	}
 	
 	

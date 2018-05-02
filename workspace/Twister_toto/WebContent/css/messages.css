@@ -1,29 +1,25 @@
 .browser{
 
 	float: right;
-	padding: 5px;
 }
 
 .user{
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 20px;
-	margin-right: 100px;
 	background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-	border-radius: 10px;
-
+	height:60px;
 }
 
 #username{
 	font-size:40px;
 	color: #ffffff;
-	border-width: 0px;
 	padding-left:10px;
 	padding-right: 10px;
 	font-family: Arial;
 	text-shadow: 2px 2px #555555;
 	font-weight: bold;
-
+	height: 100%;
 }
 
 .user:hover {
@@ -39,14 +35,14 @@
 .user ul {
 
     position: absolute;
-    right:999em ;
+    display: none;
     text-align: left;
     z-index: 1000;
     padding: 0;
     margin: 0;
     list-style: none;
+    width: 100%;
     background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
-    border-radius: 10px;
 }
 .user li{
 	border: 1px solid #b7b7b7;
@@ -55,13 +51,26 @@
 
 .user:hover ul{
 /* Au survol des li du menu on replace les sous menus */
-    right: auto;
+    display: block;
 }
 
 .research{
 	display: inline-block;
 	vertical-align: middle;
 }
+
+.research ul {
+
+    position: absolute;
+    display: none;
+    text-align: left;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+}
+
 
 .actuality{
 	display: inline-block;
@@ -83,7 +92,7 @@
 
 .aside{
 	
-	background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 17%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+	background: linear-gradient(to bottom, rgba(240,240,240,1) 0%,rgba(254,254,254,1) 100%);
 	overflow: auto;
 	position: fixed;
 
@@ -119,19 +128,34 @@ ul{
 #title{
 	font-size: 30px;
 	font-weight: bold;
+}
+
+
+#info_user{
+	padding:20px;
+
 	display: inline-block;
 	vertical-align: middle;
+}
+
+#info_user span{
+	margin:10px;
+}
+
+.follows{
+	border:1px solid #b7b7b7;
+	border-radius: 5px;
+	padding: 5px;
+
 }
 
 .add{
 	display:inline-block;
 	vertical-align: middle;
-	margin-left: 20%;
+	margin-left: 20px;
+	float:right;
 }
 
-.add span{
-	vertical-align: middle;
-}
 
 #messages{
 	padding-right: 5%;
@@ -162,7 +186,7 @@ ul{
 
 .login_message:hover {
   
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
 
 }
 
@@ -210,8 +234,10 @@ ul{
 }
 
 
+
 ::-webkit-scrollbar {
     width: 5px;
+
 }
 
 
@@ -229,4 +255,43 @@ ul{
 
 ::-webkit-scrollbar-thumb:hover {
     background: #777777; 
+}
+
+
+.heart{
+	margin:10px;
+	display:inline-block;
+	vertical-align: middle;
+}
+
+.developpe{
+	margin:10px;
+	display:inline-block;
+	vertical-align: middle;
+}
+
+.nblikes{
+
+	display:inline-block;
+	vertical-align: middle;
+}
+
+.nbcomments{
+	display:inline-block;
+	vertical-align: middle;
+}
+
+
+.friends{
+	margin:10px;
+	font-weight:bold;
+}
+
+#list_friend li{
+	font-size: 20px;
+}
+
+.trash{
+	float:right;
+	margin:20px;
 }

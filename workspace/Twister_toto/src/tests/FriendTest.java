@@ -69,7 +69,7 @@ public class FriendTest {
 		
 		
 		
-		JSONObject search = FriendServices.searchFriend(key1, "macron");
+		JSONObject search = UserServices.searchUser(key1, "macr");
 		System.out.println(search.toString());
 		
 		

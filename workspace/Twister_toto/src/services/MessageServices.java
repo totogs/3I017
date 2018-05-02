@@ -52,6 +52,42 @@ public class MessageServices {
 		return comment;
 	}
 	
+	public static JSONObject addLike(String key, int id_message){
+		
+		
+		if(!UserTools.isConnected(key)){
+			
+			return ErrorJSON.serviceRefused("Disconnected !", 5);
+		}
+		
+		int id_user = UserTools.getId(key);
+		String login = UserTools.getLogin(id_user);
+		
+		JSONObject like = MessageTools.insertLike(id_user, login, id_message);
+		if(like==null) {
+			return ErrorJSON.serviceRefused("Data Base error", 4);
+		}
+		
+		return like;
+	}
+	
+	public static JSONObject removeLike(String key, int id_message){
+		
+		
+		if(!UserTools.isConnected(key)){
+			
+			return ErrorJSON.serviceRefused("Disconnected !", 5);
+		}
+		
+		int id_user = UserTools.getId(key);
+
+		if(!MessageTools.deleteLike(id_user, id_message)) {
+			return ErrorJSON.serviceRefused("Data Base error", 4);
+		}
+		
+		return ErrorJSON.serviceAccepted("dislike !", key);
+	}
+	
 	
 	public static JSONObject listMessageUser(String key){
 		
@@ -68,7 +104,7 @@ public class MessageServices {
 	}
 	
 	
-	public static JSONObject deleteMessage(String key, ObjectId id_message){
+	public static JSONObject deleteMessage(String key, int id_message){
 		
 		
 		

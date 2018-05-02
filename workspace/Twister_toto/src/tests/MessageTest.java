@@ -64,9 +64,9 @@ public class MessageTest {
 		
 		JSONObject mes21 = MessageServices.addMessage(key2, "Je suis trop fort en info !");
 		JSONObject mes22 = MessageServices.addMessage(key2, "Venez dans mon bendo !");
-		JSONObject mes23 = MessageServices.addMessage(key2, "Qui paye sa grosse soirée ??");
+		JSONObject mes23 = MessageServices.addMessage(key2, "Qui paye sa grosse soiree ??");
 		
-		JSONObject mes31 = MessageServices.addMessage(key3, "Qui est chaud pour partir à bogota ?");
+		JSONObject mes31 = MessageServices.addMessage(key3, "Qui est chaud pour partir � bogota ?");
 		JSONObject mes32 = MessageServices.addMessage(key3, "On va bicrave des tulipes les gars ;)");
 		JSONObject mes33 = MessageServices.addMessage(key3, "Je paye ma grosse beluga pour ce soir !");
 		
@@ -76,7 +76,7 @@ public class MessageTest {
 		System.out.println("\n\nShow friends message!");
 		//*************************************
 		
-		JSONObject showmes1 = MessageServices.listMessageFriend(key1,"",-1,-1,166,-1);
+		JSONObject showmes1 = MessageServices.listMessageFriend(key1,"",-1,-1,-1,-1);
 		System.out.println(showmes1.toString());
 		
 		//*************************************

@@ -13,6 +13,11 @@
 	</servlet> 
 	
 	<servlet> 
+		<servlet-name>AddLike</servlet-name> 
+		<servlet-class>servlets.AddLike</servlet-class> 
+	</servlet> 
+	
+	<servlet> 
 		<servlet-name>AddMessage</servlet-name> 
 		<servlet-class>servlets.AddMessage</servlet-class> 
 	</servlet> 
@@ -31,6 +36,11 @@
 		<servlet-name>DeleteUser</servlet-name> 
 		<servlet-class>servlets.DeleteUser</servlet-class> 
 	</servlet>
+	
+	<servlet> 
+		<servlet-name>GetUserInfo</servlet-name> 
+		<servlet-class>servlets.GetUserInfo</servlet-class> 
+	</servlet>
 	 
 	<servlet> 
 		<servlet-name>LoginUser</servlet-name> 
@@ -48,8 +58,18 @@
 	</servlet> 
 	
 	<servlet> 
+		<servlet-name>RemoveLike</servlet-name> 
+		<servlet-class>servlets.RemoveLike</servlet-class> 
+	</servlet> 
+	
+	<servlet> 
 		<servlet-name>SearchFriends</servlet-name> 
 		<servlet-class>servlets.SearchFriends</servlet-class> 
+	</servlet> 
+
+	<servlet> 
+		<servlet-name>SearchUser</servlet-name> 
+		<servlet-class>servlets.SearchUser</servlet-class> 
 	</servlet> 
 	
 	<servlet> 
@@ -73,6 +93,11 @@
 	</servlet-mapping> 
 	
 	<servlet-mapping> 
+		<servlet-name>AddLike</servlet-name> 
+		<url-pattern>/AddLike</url-pattern> 
+	</servlet-mapping> 
+	
+	<servlet-mapping> 
 		<servlet-name>AddMessage</servlet-name> 
 		<url-pattern>/AddMessage</url-pattern> 
 	</servlet-mapping> 
@@ -91,6 +116,11 @@
 		<servlet-name>DeleteUser</servlet-name> 
 		<url-pattern>/DeleteUser</url-pattern> 
 	</servlet-mapping> 
+
+	<servlet-mapping> 
+		<servlet-name>GetUserInfo</servlet-name> 
+		<url-pattern>/GetUserInfo</url-pattern> 
+	</servlet-mapping> 
 	
 	<servlet-mapping> 
 		<servlet-name>LoginUser</servlet-name> 
@@ -108,8 +138,18 @@
 	</servlet-mapping> 
 	
 	<servlet-mapping> 
+		<servlet-name>RemoveLike</servlet-name> 
+		<url-pattern>/RemoveLike</url-pattern> 
+	</servlet-mapping> 
+	
+	<servlet-mapping> 
 		<servlet-name>SearchFriends</servlet-name> 
 		<url-pattern>/SearchFriends</url-pattern> 
+	</servlet-mapping> 
+	
+	<servlet-mapping> 
+		<servlet-name>SearchUser</servlet-name> 
+		<url-pattern>/SearchUser</url-pattern> 
 	</servlet-mapping> 
 	
 	<servlet-mapping> 

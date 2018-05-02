@@ -1,12 +1,12 @@
-function friend(id,login){
+function Friend(id,login){
 
 	this.id=id;
 	this.login=login;
 }
 
-friend.prototype.getHTML = function() {
+Friend.prototype.getHTML = function() {
 
-	return "<li><div id=\"friends_"+this.id+"\" onclick=\"pageUser('"+this.login+"',"+this.id+")\">"+this.login+"</div></li>";
+	return "<li><div class=\"friends\" onclick=\"pageUser('"+this.login+"',"+this.id+")\">"+this.login+"</div></li><hr/  width=\"80%\">";
 }
 
 
@@ -30,10 +30,9 @@ function revivalFriends(key, value){
 	if(value==null){
 		return value;
 	}
-	console.log(value);
 
 	if(value.login != undefined){
-		return new friend(value.id, value.login);
+		return new Friend(value.id, value.login);
 	}
 
 	return value;
@@ -42,8 +41,9 @@ function revivalFriends(key, value){
 function responseFriendList(rep){
 
 	var friends = JSON.parse(rep, revivalFriends);
-	console.log(friends);
 	var liste=$("#list_friend");
+	liste.html("");
+
 	if(friends.error==undefined){
 		
 		$.each(friends, function(index,friend){
@@ -53,9 +53,21 @@ function responseFriendList(rep){
 	}
 	else{
 		alert(friends.error);
+		if(friends.code==5){
+			deconnecte();
+		}
 	}
 }
 
+
+
+
+
+function clearList(){
+	var form = $(".research ul");
+	form.hide();
+	form.html("");
+}
 
 function unfollow(idfriend){
 
@@ -80,10 +92,14 @@ function responseUnfollow(id, rep){
 
 	if(rep.error==undefined){
 
-		$("#add").replaceWith("<div class=\"add\"><div>Follow</div><img src=\"./image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"follow("+id+")\"></div>");
+		$(".add").replaceWith("<div class=\"add\"><div>Follow</div><img src=\"./image/follow.png\" class=\"icon\" title=\"follow\" onclick=\"follow("+id+")\"></div>");
+		getFriendList();
 	}
 	else{
 		alert(rep.error);
+		if(rep.code==5){
+			deconnecte();
+		}
 	}
 }
 
@@ -111,9 +127,26 @@ function responseFollow(id, rep){
 
 	if(rep.error==undefined){
 
-		$("#add").replaceWith("<div class=\"add\"><div>Unfollow</div><img src=\"./image/everfollow.png\" class=\"icon\" title=\"follow\" onclick=\"unfollow("+env.fromId+")\"></div>");
+		$(".add").replaceWith("<div class=\"add\"><div>Unfollow</div><img src=\"./image/everfollow.png\" class=\"icon\" title=\"follow\" onclick=\"unfollow("+env.fromId+")\"></div>");
+		getFriendList();
 	}
 	else{
 		alert(rep.error);
+		if(rep.code==5){
+			deconnecte();
+		}
 	}
 }
+
+
+$(function() {
+
+    $(window).resize(function() {
+    
+        var sH = $(window).height();
+        $('.aside').css('height', sH + 'px');
+        
+    }); 
+
+
+});
