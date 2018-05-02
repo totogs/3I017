@@ -119,7 +119,7 @@ public class MessageServices {
 			return ErrorJSON.serviceRefused("Data Base error", 4);
 		}
 		
-		return ErrorJSON.serviceAccepted("Post deleted !", key);
+		return ErrorJSON.serviceAccepted("Message "+id_message+" deleted !", key);
 	}
 	
 	

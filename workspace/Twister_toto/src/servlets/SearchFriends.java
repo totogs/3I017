@@ -18,7 +18,6 @@ public class SearchFriends extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String key = request.getParameter("key");
-		String query = request.getParameter("query");
 
 	
 		System.out.println("Demande de liste d'amis de "+key);
@@ -40,7 +39,7 @@ public class SearchFriends extends HttpServlet {
 			repstring = rep.toString();
 		}
 		
-		
+		System.out.println(rep);
 		
 		response.setContentType("text/plain");
 		response.getWriter().println(repstring);

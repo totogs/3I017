@@ -17,7 +17,7 @@ public class UserServices {
 	public static JSONObject login(String login, String psswd, String root){
 	
 		if (login==null || psswd==null){
-			return ErrorJSON.serviceRefused("Wrong arguments", 0);
+			return ErrorJSON.serviceRefused("Wrong arguments", -1);
 		}
 		if (! UserTools.userExists(login)) {
 			return ErrorJSON.serviceRefused("User doesn't exists", 1);
@@ -26,7 +26,7 @@ public class UserServices {
 		boolean psswdOk = UserTools.checkPsswd(login, psswd);
 		
 		if (!psswdOk) {
-			return ErrorJSON.serviceRefused("Wrong password", 2);
+			return ErrorJSON.serviceRefused("Password does not match !", 3);
 		}
 		
 		String key = UserTools.generateKey(32);

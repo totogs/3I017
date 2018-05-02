@@ -65,6 +65,10 @@ public class FriendServices {
 		int id_user = UserTools.getId(key);
 
 		JSONObject friends = FriendTools.showFriend(id_user);
+
+		if(friends==null) {
+			return ErrorJSON.serviceRefused("Data Base error", 4);
+		}
 		
 		return friends;
 	}

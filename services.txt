@@ -1,0 +1,219 @@
+Liste des servives
+
+
+AddComment:
+	Permet l'ajout de commentaire à un message
+	paramètre: 
+		-key, clé de session de l'utilisateur
+		-text, contenu du commentaire
+		-idMessage, l'id du message auquel on ajoute le commentaire	
+
+	retour:
+		-> {"id_user":3, "login":totodu92, "id_message":5, "date":, "content": "jte le fais pas dire !" }  si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+
+AddFriend
+	Permet d'ajouter à ses amis une personne
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-idFriend, l'id de la personne à ajouter
+
+	retour:
+		->{"key":, "message", "Friend 2 added !"}
+
+		->{"error": "User 1 and 3 are already friends !", "code":3} si la personne à ajouter fait déjà partie de nos amis
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+AddLike
+	Permet d'aimer une publication
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-idMessage, l'id du message qu'on veut aimer
+	retour:
+		->{"id_message":5, "id_liker":6, "login":diablo54, "date":date} si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+
+AddMessage
+	Permet l'ajout d'un message
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-text, le contenu du message à ajouter
+
+	retour:
+		-> {"id_user":3, "login":totodu92, "id":5, "date":, "content": "Il fait beau aujourd'hui !" }  si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+CreateUser
+	Permet la création d'un compte utilisateur
+	paramètre:
+		-login, login du compte à creer
+		-psswd, mot de passe du compte à créer
+		-name, nom de la personne à créer
+		-surname, prenom de la personne à créer
+
+	retour:
+		->{"message": "User scarface1 has just been created !"} si pas d'erreur
+
+		-> {"error":"Wrong arguments", "code":-1} si au moins un des arguments est vide
+		-> {"error":"User already exists", "code":0} si le login existe déjà dans la base de donnée
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+DeleteMessage
+	Permet de supprimer un message
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-idMessage, l'id du message à supprimer
+
+	retour
+		->{"key":, "message", "Message 6 deleted !"} si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+DeleteUser
+	Permet de supprimer un compte utilisateur
+	paramètre:
+		-login, le login du compte à supprimer
+		-psswd, mot de passe du compte à supprimer
+
+	retour:
+		->{"message":"User 3 has just been deleted !"} si pas d'erreur
+
+		-> {"error":"User doesn't exists", "code":1}  si le compte n'existe pas
+		-> {"error":"Password does not match", "code":3} si le mot de passe associé au compte est erroné 
+		-> {"error":"Data Base Error", "code":4}  si il y a eu un probleme dans l'accès à la base de donnée
+
+
+GetUserInfo
+	Permet de récupérer les informations d'un utilisateur telles que son login, son id, son nom, son prenom, son nombre de followers, son nombre de personnes suivis et son nombre de publications.
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-id, l'id de l'utilisateur auquel on veut les informations
+
+	retour:
+		->{"login": totodu92, "id":45, "name":"toto", "surname":"gogo", "followers": 45, "follows":21, "publications":12} si pas d'erreur
+
+		-> {"error":"User doesn't exists", "code":1}  si le compte n'existe pas
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+LoginUser
+	Permet de se connecter à un compte utilisateur
+	paramètre:
+		login, pseudo du compte auquel on veut se connecter
+		psswd, le mot de passe du compte,
+		root, vaut "on" si l'on veut que le compte ne se deconnecte pas automatiquement au bout de 30 minutes et "undefined" sinon
+
+	retour:
+		->{"key":, "login":totodu92, "id":6, folllows:[4,10,6]} si pas d'erreur
+
+		-> {"error":"Wrong arguments", "code":-1} si au moins un des arguments est vide
+		-> {"error":"User doesn't exists", "code":1}  si le compte n'existe pas
+		-> {"error":"Password does not match", "code":3} si le mot de passe associé au compte est erroné 
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+LogoutUser
+	Permet de se deconnecter d'un compte utilisateur
+	paramètre:
+		-key, clé de session de l'utilisateur
+
+	retour:
+		->{"key", "message":"Logout !"} si pas d'erreur
+
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+
+RemoveFriend
+	Permet de retirer une personne de sa liste d'amis
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-idFriend, id de l'amis à retirer
+
+	retour:
+		->{"key":, "message":"Friend 41 removed !"} si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+RemoveLike
+	Permet de ne plus aimer une publication
+	paramètre:
+		-key, clé de session de l'utilisateur
+		-idMessage, id du message qu'on ne veut plus aimer
+
+	retour:
+		->{"key":, "message":"dislike !"} si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+
+SearchFriends
+	Permet de récupérer la liste de nos amis
+	paramètre:
+		-key, clé de session de l'utilisateur
+
+	retour:
+		->[{"id":3,"login":"elyzeeEnY"},{"id":4,"login":"totodu92"}] si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+SearchUser
+	Permet de récupérer la liste des utilisateur en fonction d'une d'une chaine de caractère mentionner dans la barre de recherche du site (like 'query%' en SQL)
+	paramètre:	
+		-key, clé de session de l'utilisateur
+		-query, chaine de caractère servant de filtre 
+
+	retour:
+
+		->[{"id":20,"login":"scarface1"},{"id":21,"login":"sosa92"}]
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+ShowMessage
+	Permet de récupérer la liste des messages de l'utilisateur
+	paramètre:
+	    -key, clé de session de l'utilisateur
+
+	retour:
+		->[{"date":"Tue May 01 18:11:31 CEST 2018","comments":[{"date":"Wed May 02 04:32:19 CEST 2018","id_message":13,"_id":"5ae923339c86195518a16c85","id_user":20,"login":"scarface1","content":"wewe"}],"_id":"5ae891b39c86c53af54a98dc","id_user":20,"id":13,"login":"scarface1","content":"j'ai reussis","likes":[]},{"date":"Tue May 01 17:00:04 CEST 2018","comments":[],"_id":"5ae880f49c86cf00c7c647a2","id_user":20,"id":1,"login":"scarface1","content":"Qui a fait les servlets ??","likes":[]},{"date":"Tue May 01 17:00:04 CEST 2018","comments":[],"_id":"5ae880f49c86cf00c7c647a1","id_user":20,"id":0,"login":"scarface1","content":"Qui a fait les maths ??","likes":[]}] si pas d'erreur
+
+		-> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		-> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+
+ShowMessageFriend
+		Permet de récupérer une liste des messages de nb messages dont l'id est compris entre id_min et id_max, et en fonction d'une query
+		les messages récupérés sont les messages de nos amis et les notres.
+		Paramètre:
+			-key, clé de session de l'utilisateur
+			-id_min, l'id min des messages à récupérer
+			-id_max, l'id max des messages à récupérer
+			-query, chaine de caractère servant de filtre
+
+		retour:
+			->[{"date":"Tue May 01 17:00:04 CEST 2018","comments":[],"_id":"5ae880f49c86cf00c7c647a9","id_user":3,"id":8,"login":"elyzeeEnY","content":"Je paye ma grosse beluga pour ce soir !","likes":[{"date":"Wed May 02 04:21:17 CEST 2018","_id":"5ae9209d9c86195518a16c83","login":"scarface1","id_liker":20,"id_message":8}]},{"date":"Tue May 01 17:00:04 CEST 2018","comments":[],"_id":"5ae880f49c86cf00c7c647a8","id_user":3,"id":7,"login":"elyzeeEnY","content":"On va bicrave des tulipes les gars ;)","likes":[]},{"date":"Tue May 01 17:00:04 CEST 2018","comments":[],"_id":"5ae880f49c86cf00c7c647a7","id_user":3,"id":6,"login":"elyzeeEnY","content":"Qui est chaud pour partir à  bogota ?","likes":[]}] si pas d'erreur
+
+		    -> {"error":"Disconnected !", "code":5}  si l'utilisateur n'est pas connecté
+		    -> {"error":"Data Base Error", "code":4} si il y a eu un probleme dans l'accès à la base de donnée
+
+

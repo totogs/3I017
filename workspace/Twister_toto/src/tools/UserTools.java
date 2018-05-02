@@ -346,13 +346,12 @@ public class UserTools {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection cn = Database.getMySQLConnection();
-			String query = "SELECT id, login, name, surname FROM Users  WHERE name like ? or surname like ? or login like ?;";
+			String query = "SELECT id, login, name, surname FROM Users  WHERE login like ?;";
 			PreparedStatement st = cn.prepareStatement(query);
 			search=search+"%";
 			
 			st.setString(1, search);
-			st.setString(2, search);
-			st.setString(3, search);
+
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next()) {

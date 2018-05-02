@@ -69,7 +69,7 @@ function MakeMainPanel(){
 			'</div>'+
 			'<div class="browser">'+
 				'<div class="research">'+
-					'<input id="searchinput" onkeypress="getUsersSearch(this);"  type="search" name="research" placeholder="Research">'+
+					'<input id="searchinput" onkeyup="getUsersSearch(this);"  type="search" name="research" placeholder="Research">'+
 					'<ul></ul>'+
 				'</div>'+
 				'<div class="actuality">'+
@@ -79,7 +79,7 @@ function MakeMainPanel(){
 					'<div id="username"></div>'+
 					'<ul>'+
 						'<li><a href="#" onclick="pageUser(\''+env.login+'\','+env.id+')">Your profile</a></li>'+
-						'<li><a href="#">Edit profile</a></li>'+
+						'<li><a href="#" onclick="makeDeleteAccount()">Delete account</a></li>'+
 						'<li><a href="#" onclick="deconnecte()">Disconnect</a></li>'+
 					'</ul>'+
 				'</div>'+
@@ -148,5 +148,48 @@ function MakeMessagePanel(fromId, fromLogin, query){
 	completeMessages(fromId, query);
 
 
+
+}
+
+
+
+function makeDeleteAccount(){
+
+	var s=	'<div class="top">'+
+			'<div class="image">'+
+				'<img src="./image/wetalk.png" width="100px" height="50px">'+
+			'</div>'+
+		'</div>'+
+
+		'<div class="middle1">'+
+
+
+			'<div class="signinform">'+
+				"Delete Account <br/>"+
+				"Please create an account !"+
+				'<form action="javascript:(function(){})()" onsubmit="deleteAccount(this)" method="get">'+
+
+					'<div class="elform">'+	
+					'<input type="text" name="login" class="up_input lg_200" placeholder="Login">'+
+					'</div>'+
+					'<div class="elform">'+
+						'<input type="password" class="up_input lg_200" name="psswd" placeholder="Password">'+
+					'</div>'+
+					'<div class="elform">'+
+						'<input class="button" class="up_input lg_200" type="submit" value="delete account">'+
+					'</div>'+
+				'</form>'+
+			'</div>'+
+		'</div>'+
+
+		'<div class="below">'+
+			'<div class="information">'+
+				'Created by<br/>'+
+				'GOSSE-DUMESNIL Tony<br/>'+
+				'BOURCIER Jules<br/>'+
+			'</div>'+
+		'</div>';
+
+		$("body").html(s);
 
 }

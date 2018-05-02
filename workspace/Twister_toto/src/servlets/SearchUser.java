@@ -26,6 +26,7 @@ public class SearchUser extends HttpServlet {
 
 		JSONObject rep = UserServices.searchUser(key, query);
 		
+		System.out.println(rep);
 		
 		String repstring="";
 		if(rep.has("users")){

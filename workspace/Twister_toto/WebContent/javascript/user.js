@@ -104,3 +104,37 @@ function responseUserSearch(rep){
 }
 
 
+function deleteAccount(form){
+
+	var login=form.login.value;
+	var psswd=form.psswd.value;
+
+	if(!env.noConnexion){
+	
+		$.ajax({
+			type:"POST",
+			url:"DeleteUser",
+			data:"login="+login+"&psswd="+psswd,
+			datatype:"json",
+			success:function(rep){responsedeleteUser(rep);},
+			error:function(xhr,textstatus,error){alert(textstatus);}
+		});
+	}
+
+}
+
+
+function responsedeleteUser(rep){
+
+	rep=JSON.parse(rep);
+
+	if(rep.error==undefined){
+
+		alert(rep.message);
+		deconnecte();
+	}
+	else{
+		alert(rep.error);
+		deconnecte();
+	}
+}
